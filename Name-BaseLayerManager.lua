@@ -2,7 +2,7 @@ local useSprite = app.sprite
 local useLayer = app.layer
 
 if not useSprite or not useLayer then
-    app.alert("There is no sprite or layer")
+    app.alert("There is no sprite or layer. Please open aseprite file.")
     return
 end
 
@@ -11,6 +11,7 @@ local function findLayerString(layerKeyword)
     local FindLayerTable = {}
     local keyword = layerKeyword:lower()
 
+    -- search child group in parent group and insert FindLayerTable
     local function insertAllLayerKeywordGroup(searchedLayers)
         for _, eachLayer in ipairs(searchedLayers.layers) do
             table.insert(FindLayerTable, eachLayer)
@@ -20,6 +21,7 @@ local function findLayerString(layerKeyword)
         end
     end
 
+    -- search all KeywordLayers and insert FindLayerTable
     local function searchKeywordLayers(searchedLayers)
         for _, eachLayer in ipairs(searchedLayers.layers) do
             if eachLayer.isGroup then
@@ -35,8 +37,6 @@ local function findLayerString(layerKeyword)
             end
         end
     end
-
-
 
     searchKeywordLayers(useSprite)
 
@@ -81,7 +81,7 @@ local function changeOpacityForAllLayers(layersOpacity, allFindLayers)
 end
 
 
-
+--UI
 local dlg = Dialog("Name-Based Layer Manager")
 dlg:label { text = "Find Layer Name: " }:newrow()
     :entry { id = "layerKeyword", text = "", focus = true }:newrow()
